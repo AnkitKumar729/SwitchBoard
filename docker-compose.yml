@@ -7,7 +7,7 @@ services:
       - "8000:8000"
     environment:
       LLM_API_KEYS: ${LLM_API_KEYS:?Set LLM_API_KEYS in the .env file}
-      LLM_MODEL: ${LLM_MODEL:-gemini/gemini-3.5-flash-lite}
+      LLM_MODEL: ${LLM_MODEL:-groq/openai/gpt-oss-20b}
       LLM_API_BASE: ${LLM_API_BASE:-}
       DATABASE_URL: ${DATABASE_URL:-sqlite:////data/app.db}
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}

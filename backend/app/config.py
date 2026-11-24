@@ -21,7 +21,7 @@ class Settings:
     def from_env(cls) -> "Settings":
         return cls(
             api_keys=_csv("LLM_API_KEYS"),
-            model=os.getenv("LLM_MODEL", "gemini/gemini-3.5-flash-lite"),
+            model=os.getenv("LLM_MODEL", "groq/openai/gpt-oss-20b"),
             database_url=os.getenv("DATABASE_URL", "sqlite:///./app.db"),
             allowed_origins=[origin.rstrip("/") for origin in _csv("ALLOWED_ORIGINS")],
             simulation_enabled=os.getenv("ENABLE_FAILURE_SIMULATION", "").strip().lower() == "true",
