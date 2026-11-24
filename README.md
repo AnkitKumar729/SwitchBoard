@@ -20,7 +20,7 @@ docker-compose.yml, Makefile, .env.example
 | --- | --- |
 | Frontend (Vercel) | https://ankit-switchboard.vercel.app |
 | Backend (Render) | https://switchboard-api-gnea.onrender.com (try [`/health`](https://switchboard-api-gnea.onrender.com/health)) |
-| Demo video | `TODO: paste the video link` |
+| Demo video (Loom) | https://www.loom.com/share/fcaef6762a6343ca8405a8da96cb6e86 |
 
 The deployed backend runs with `ENABLE_FAILURE_SIMULATION=true`, so failover can be tested with the
 `X-Simulate-Failure` header. It is on Render's free plan, which sleeps after 15 minutes without
