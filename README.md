@@ -31,7 +31,8 @@ restarts.
 
 ## 2. Run locally
 
-Both ways need a `.env` file with at least two API keys for the model's provider:
+Both ways need a `.env` file with at least two API keys for the model's provider. The default model
+runs on Groq's free plan, and the keys are created at https://console.groq.com/keys.
 
 ```bash
 cp .env.example .env      # then put your real keys in LLM_API_KEYS
@@ -80,7 +81,7 @@ make test        # or: cd backend && python3 -m pytest
 | Variable | Meaning |
 | --- | --- |
 | `LLM_API_KEYS` | Comma-separated key pool, at least 2 keys. Key ids are `key_1`, `key_2`, ... in this order. |
-| `LLM_MODEL` | LiteLLM model name used with every key. Default `gemini/gemini-3.5-flash-lite`. |
+| `LLM_MODEL` | LiteLLM model name used with every key. Default `groq/openai/gpt-oss-20b`. |
 | `LLM_API_BASE` | Optional base URL for a self-hosted or OpenAI-compatible provider. |
 | `DATABASE_URL` | SQLite location, for example `sqlite:////data/app.db`. |
 | `ALLOWED_ORIGINS` | Comma-separated CORS origins (the frontend URL). |
@@ -103,6 +104,9 @@ make test        # or: cd backend && python3 -m pytest
   cooldowns on.
 - **Every key failed:** the API answers `503 {"detail": "all providers unavailable"}` and stores
   nothing.
+- **What two keys cover.** Groq counts rate limits per organization, not per key, so keys from one
+  account share one quota. They cover a revoked or broken key. When the quota itself runs out,
+  every key fails and the answer is the 503 above.
 - **`key_id` and `fallback_attempts`** are read from LiteLLM's response: the id of the deployment
   that answered and the number of fallbacks it attempted.
 - **`X-Simulate-Failure`** is a LiteLLM pre-call hook. Just before LiteLLM calls a key that the
@@ -143,6 +147,9 @@ make test        # or: cd backend && python3 -m pytest
   404, and a catch-all handler turns anything unexpected into a plain 500 without a stack trace.
 - **Exactly three endpoints.** FastAPI's generated `/docs` and `/openapi.json` are switched off.
 - **Token counts are per request**, taken from the usage the provider returns for that call.
+- **The provider is one setting.** `LLM_MODEL` takes any LiteLLM model name, and every key in the
+  pool belongs to that model's provider. The default is `groq/openai/gpt-oss-20b`, which is on
+  Groq's free plan.
 - **`litellm` is pinned to 1.101.6.** Newer releases import optional proxy packages when a cached
   response is served, so a cache hit fails without them. `backend/requirements.txt` is a full lock.
 
