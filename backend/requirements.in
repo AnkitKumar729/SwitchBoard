@@ -1,0 +1,7 @@
+# Direct dependencies. requirements.txt is the full pinned lock:
+#   uv pip compile requirements.in -o requirements.txt --universal --python-version 3.12
+fastapi==0.165.0
+uvicorn==0.54.0
+# litellm 1.102 and later import proxy-only packages (orjson, soundfile) when a cached
+# response is served, so a cache hit fails without them. 1.101.6 is the newest release without that.
+litellm==1.101.6
